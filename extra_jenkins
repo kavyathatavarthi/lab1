@@ -26,3 +26,876 @@ pipeline {
  }
  }
 }
+
+==================================================================================================================================
+# Experiment 1 — Basic Pipeline with Parameter and BAT Command
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'MESSAGE', defaultValue: 'Hello Jenkins', description: 'Enter message')
+ }
+
+ stages {
+
+  stage('Checkout Code') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Print Parameter') {
+   steps {
+    echo "Message is: ${params.MESSAGE}"
+   }
+  }
+
+  stage('BAT Command') {
+   steps {
+    bat 'echo Hello from Jenkins'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'MESSAGE', defaultValue: 'Updated Message')
+ }
+
+ stages {
+
+  stage('Checkout Code') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Display Date') {
+   steps {
+    bat 'date /T'
+   }
+  }
+
+  stage('Print Parameter') {
+   steps {
+    echo "Parameter value: ${params.MESSAGE}"
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 3
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout Latest Commit') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create File') {
+   steps {
+    bat 'echo Jenkins Output > output.txt'
+   }
+  }
+
+  stage('Display File') {
+   steps {
+    bat 'type output.txt'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 4
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'USERNAME', defaultValue: 'User')
+ }
+
+ stages {
+
+  stage('Checkout Code') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create User File') {
+   steps {
+    bat 'echo %USERNAME% > user.txt'
+   }
+  }
+
+ }
+}
+```
+==================================================================================================================================
+
+
+# Experiment 2 — Boolean and Choice Parameters
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  booleanParam(name: 'RUN_TEST', defaultValue: true)
+ }
+
+ stages {
+
+  stage('Checkout Code') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Run Test') {
+   when {
+    expression { params.RUN_TEST == true }
+   }
+   steps {
+    bat 'echo Running Test'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  choice(name: 'ENVIRONMENT', choices: ['DEV','TEST','PROD'])
+ }
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Print Environment') {
+   steps {
+    echo "Selected Environment: ${params.ENVIRONMENT}"
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 3
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'BUILD_NAME', defaultValue: 'build1')
+ }
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create File') {
+   steps {
+    bat 'echo %BUILD_NAME% > build.txt'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 4
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'PARAM1', defaultValue: 'value')
+ }
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Workspace Path') {
+   steps {
+    echo "Workspace: ${env.WORKSPACE}"
+   }
+  }
+
+  stage('Print Parameters') {
+   steps {
+    echo "Parameter value: ${params.PARAM1}"
+   }
+  }
+
+ }
+}
+```
+==================================================================================================================================
+
+# Experiment 3 — Simple Build Simulation
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Compile') {
+   steps {
+    bat 'echo Compiling...'
+   }
+  }
+
+  stage('Build Success') {
+   steps {
+    bat 'echo Build Successful'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create Build Folder') {
+   steps {
+    bat 'mkdir build'
+   }
+  }
+
+  stage('Copy Files') {
+   steps {
+    bat 'copy * build'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 3
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('List Files') {
+   steps {
+    bat 'dir'
+   }
+  }
+
+  stage('Timestamp') {
+   steps {
+    bat 'echo %DATE% %TIME%'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 4
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create Artifact') {
+   steps {
+    bat 'echo Artifact created > artifact.txt'
+   }
+  }
+
+  stage('Archive Artifact') {
+   steps {
+    archiveArtifacts artifacts: 'artifact.txt'
+   }
+  }
+
+ }
+}
+```
+==================================================================================================================================
+
+# Experiment 4 — Manual Input and Approval
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Approval') {
+   steps {
+    input 'Proceed with Build?'
+   }
+  }
+
+  stage('Confirmation') {
+   steps {
+    echo 'Build Approved'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('User Input') {
+   steps {
+    input message: 'Approve Deployment'
+   }
+  }
+
+  stage('Approval Message') {
+   steps {
+    bat 'echo Deployment Approved'
+   }
+  }
+
+ }
+}
+```
+##Version 3
+'''''
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/kavyathatavarthi/exp1-cli.git'
+            }
+        }
+
+        stage('Build Number') {
+            steps {
+                echo "Build Number: ${env.BUILD_NUMBER}"
+            }
+        }
+
+        stage('Status') {
+            steps {
+                echo 'Build running successfully'
+            }
+        }
+    }
+}
+'''
+##Version 4
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/kavyathatavarthi/exp1-cli.git'
+            }
+        }
+
+        stage('Input Text') {
+            steps {
+                script {
+                    def text = input message: 'Enter text', parameters: [string(name: 'DATA')]
+                    bat "echo ${text} > inputdata.txt"
+                }
+            }
+        }
+
+        stage('Show File') {
+            steps {
+                bat 'type inputdata.txt'
+            }
+        }
+    }
+
+==================================================================================================================================
+
+
+# Experiment 5 — File Handling
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create File') {
+   steps {
+    bat 'echo Sample Data > sample.txt'
+   }
+  }
+
+  stage('Display File') {
+   steps {
+    bat 'type sample.txt'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Append Data') {
+   steps {
+    bat 'echo New Line >> sample.txt'
+   }
+  }
+
+  stage('Count Lines') {
+   steps {
+    bat 'find /c /v "" sample.txt'
+   }
+  }
+
+ }
+}
+```
+##Version 3
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/kavyathatavarthi/exp1-cli.git'
+            }
+        }
+
+        stage('Rename File') {
+            steps {
+                bat 'rename sample.txt newfile.txt'
+            }
+        }
+
+        stage('List Files') {
+            steps {
+                bat 'dir'
+            }
+        }
+    }
+}
+''''
+##Version 4
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/kavyathatavarthi/exp1-cli.git'
+            }
+        }
+
+        stage('Delete File') {
+            steps {
+                bat 'del newfile.txt'
+            }
+        }
+
+        stage('Confirm Deletion') {
+            steps {
+                bat 'dir'
+            }
+        }
+    }
+}
+
+==========================================================================================================================================
+---
+
+# Experiment 6 — Environment Variables
+
+## Version 1
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Print Env Variables') {
+   steps {
+    bat 'set'
+   }
+  }
+
+  stage('Echo Message') {
+   steps {
+    echo 'Environment variables printed'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 2
+
+```groovy
+pipeline {
+ agent any
+
+ environment {
+  APP_NAME = "JenkinsDemo"
+ }
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Print Variable') {
+   steps {
+    bat 'echo %APP_NAME%'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 3
+
+```groovy
+pipeline {
+ agent any
+
+ parameters {
+  string(name: 'VERSION', defaultValue: '1.0')
+ }
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Create Version File') {
+   steps {
+    bat 'echo %VERSION% > version.txt'
+   }
+  }
+
+ }
+}
+```
+
+---
+
+## Version 4
+
+```groovy
+pipeline {
+ agent any
+
+ stages {
+
+  stage('Checkout') {
+   steps {
+    git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+   }
+  }
+
+  stage('Print Commit ID') {
+   steps {
+    bat 'git rev-parse HEAD'
+   }
+  }
+
+  stage('Build Result') {
+   steps {
+    echo "Build Completed Successfully"
+   }
+  }
+
+ }
+}
+****************************************************************************************************************************************
+Experiment 1: Basic Pipeline with Parameter and BAT Command
+Objective: To verify GitHub integration, parameter handling, and execution of simple Windows
+batch commands using Jenkins Pipeline.
+Version 1
+• Task 1: Configure pipeline to checkout source code from GitHub repository.
+• Task 2: Define a string parameter named MESSAGE and print its value in the console output.
+• Task 3: Execute a simple Windows batch command using BAT to display 'Hello from Jenkins'.
+Version 2
+• Task 1: Checkout updated code from GitHub after modifying a file in IDE.
+• Task 2: Execute BAT command to display current system date.
+• Task 3: Print the parameter value again to verify parameter passing.
+Version 3
+• Task 1: Checkout latest commit from GitHub.
+• Task 2: Create a file named output.txt using BAT command.
+• Task 3: Display the contents of output.txt in Jenkins console.
+Version 4
+• Task 1: Checkout latest version from GitHub.
+• Task 2: Accept USERNAME parameter from user.
+• Task 3: Create user.txt file and store the username inside it.
+--------------------------------------------------------------------------------------------------------------------------------
+Experiment 2: Boolean and Choice Parameters
+Objective: To understand usage of Boolean, Choice, and String parameters in Jenkins Pipeline.
+Version 1
+• Task 1: Checkout code from GitHub repository.
+• Task 2: Define Boolean parameter RUN_TEST.
+• Task 3: If RUN_TEST is true, execute BAT command to display 'Running Test'.
+Version 2
+• Task 1: Checkout updated repository version.
+• Task 2: Define Choice parameter with values DEV, TEST, PROD.
+• Task 3: Print selected environment in console.
+Version 3
+• Task 1: Checkout repository.
+• Task 2: Define string parameter BUILD_NAME.
+• Task 3: Create a file with BUILD_NAME as its content.
+Version 4
+• Task 1: Checkout repository.
+• Task 2: Display Jenkins workspace path using environment variable.
+• Task 3: Print all parameter values in console.
+--------------------------------------------------------------------------------------------------------------------------------
+Experiment 3: Simple Build Simulation
+Objective: To simulate a simple build process using BAT commands without Maven.
+Version 1
+• Task 1: Checkout code from GitHub.
+• Task 2: Simulate compilation using BAT command 'echo Compiling...'
+• Task 3: Display build success message using BAT.
+Version 2
+• Task 1: Checkout updated code.
+• Task 2: Create a folder named build in workspace.
+• Task 3: Copy files into build folder using BAT.
+Version 3
+• Task 1: Checkout repository.
+• Task 2: List all files in workspace using 'dir'.
+• Task 3: Print current build timestamp.
+Version 4
+• Task 1: Checkout repository.
+• Task 2: Create artifact.txt file.
+• Task 3: Archive artifact.txt using archiveArtifacts step.
+--------------------------------------------------------------------------------------------------------------------------------
+Experiment 4: Manual Input and Approval
+Objective: To implement manual approval and input steps in Jenkins Pipeline.
+Version 1
+• Task 1: Checkout code from GitHub.
+• Task 2: Add input step asking 'Proceed with Build?'.
+• Task 3: Print confirmation message after approval.
+Version 2
+• Task 1: Checkout updated repository.
+• Task 2: Accept input parameter from user during execution.
+• Task 3: Execute BAT command displaying approval confirmation.
+Version 3
+• Task 1: Checkout repository.
+• Task 2: Print Jenkins build number.
+• Task 3: Display status message.
+Version 4
+• Task 1: Checkout repository.
+• Task 2: Accept text parameter from user.
+• Task 3: Save parameter value into a file using BAT.
+--------------------------------------------------------------------------------------------------------------------------------
+Experiment 5: File Handling Operations
+Objective: To perform file creation, modification, renaming, and deletion inside Jenkins workspace.
+Version 1
+• Task 1: Checkout repository.
+• Task 2: Create sample.txt file using BAT.
+• Task 3: Display file content in console.
+Version 2
+• Task 1: Checkout repository.
+• Task 2: Append new data to sample.txt.
+• Task 3: Count number of lines in file.
+Version 3
+• Task 1: Checkout repository.
+• Task 2: Rename sample.txt to newfile.txt.
+• Task 3: List all files to confirm rename operation.
+Version 4
+• Task 1: Checkout repository.
+• Task 2: Delete the file using BAT command.
+• Task 3: Confirm deletion using directory listing.
+Experiment 6: Environment Variables
+Objective: To understand usage of environment variables and parameter passing in Jenkins
+Pipeline.
+Version 1
+• Task 1: Checkout repository.
+• Task 2: Print Jenkins environment variables.
+• Task 3: Display custom echo message.
+Version 2
+• Task 1: Checkout repository.
+• Task 2: Define custom environment variable inside pipeline.
+• Task 3: Print environment variable using BAT.
+Version 3
+• Task 1: Checkout repository.
+• Task 2: Accept VERSION parameter from user.
+• Task 3: Create version.txt file storing version value.
+Version 4
+• Task 1: Checkout repository.
+• Task 2: Print Git commit ID in console.
+• Task 3: Display final build result.
