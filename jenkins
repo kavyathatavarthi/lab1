@@ -21,4 +21,22 @@
         }
    ii)Write a Jenkins pipeline script to checkout code from a GitHub repository and print the current working directory in Jenkins workspace.
         ans::
-        
+         pipeline {
+         agent any
+         stages {
+          stage('Checkout Code') {
+           steps {
+            git branch: 'main', url: 'https://github.com/kavyathatavarthi/exp1-cli.git'
+           }
+          }
+          stage('Print Directory') {
+           steps {
+            bat 'cd'
+           }
+          }
+         }
+        }
+  iii)Write a Jenkins pipeline script to checkout code from a GitHub repository and print a success message after execution.
+     ans::
+    
+                
