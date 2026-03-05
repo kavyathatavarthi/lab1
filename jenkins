@@ -38,5 +38,55 @@
         }
   iii)Write a Jenkins pipeline script to checkout code from a GitHub repository and print a success message after execution.
      ans::
+       pipeline {
+       agent any
+       stages {
+       stage('Checkout Code') {
+       steps {
+       git branch:'main',url:'https://github.com/kavyathatavarthi/exp1-cli.git'
+       }
+       }
+       stage('Print Message') {
+       steps {
+       echo 'Hello! Jenkins Pipeline executed successfully'
+       }
+       }
+       }
+      }
+  iv)Write a Jenkins pipeline script to checkout code from a GitHub repository and create a new file using a batch command.
+    ans::
+     pipeline {
+     agent any
+     stages {
+     stage('Checkout Code') {
+     steps {
+           git branch:'main',url:'https://github.com/kavyathatavarthi/exp1-cli.git'
+     }
+     }
+     stage('Create File') {
+     steps {
+     bat 'echo This file is created by Jenkins > demo.txt'
+     }
+     }
+     }
+    }
+    v)Write a Jenkins pipeline script to checkout code from a GitHub repository and read the contents of a file from the repository.
+    ans::
+     pipeline {
+     agent any
+     stages {
+     stage('Checkout Code') {
+     steps { ///should contain readme.md file in repo
+                git branch:'main',url:'https://github.com/kavyathatavarthi/exp1-cli.git'     }
+     }
+     stage('Read File') {
+     steps {
+     bat 'type README.md'
+     }
+     }
+     }
+    }
+    
+
     
                 
