@@ -1,1 +1,24 @@
-
+1)freestyle
+2)2 freestyles and pipeline
+3)direct pipeline basic
+4)pipelines examples---just write the code no need to do changes
+  i)Write a Jenkins pipeline script to checkout code from a GitHub repository and display the list of files in the workspace
+         ans::
+         pipeline {
+         agent any
+         stages {
+         stage('Checkout Code') {
+         steps {
+         git branch:'main',url:'https://github.com/kavyathatavarthi/exp1-cli.git'
+         }
+         }
+         stage('Show Files') {
+         steps {
+         bat 'dir'
+         }
+         }
+         }
+        }
+   ii)Write a Jenkins pipeline script to checkout code from a GitHub repository and print the current working directory in Jenkins workspace.
+        ans::
+        
