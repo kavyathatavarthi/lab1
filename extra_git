@@ -1,1 +1,125 @@
+Case Study 1: New Project Version Control Setup 
+Scenario: You are assigned to develop a Library Management System. Before coding, your team 
+decides to enable version control. 
+Tasks: - Create a project folder and open it in VS Code - Initialize a Git repository - Create a Python file and track it using Git - Commit the initial version 
+====================================================================================
+Case Study 2: Tracking Daily Code Changes 
+Scenario: You are working on a Student Registration Module. You make small updates daily and 
+need to record them. 
+Tasks: - Modify an existing file - Check file differences - Stage and commit changes - View commit history 
+=========================================================================================
+Case Study 3: Feature Development Using Branches 
+Scenario: A new Login feature must be developed without disturbing main code. 
+Tasks: - Create a new branch - Add login-related code - Commit changes - Switch between branches 
+======================================================================================
+Case Study 4: Merging Feature into Main Code 
+Scenario: The login feature is tested and approved. 
+Tasks: - Switch to main branch - Merge feature branch - Verify merged content 
+======================================================================================
+Case Study 5: Working with Remote Repository 
+Scenario: The project must be shared using GitHub. 
+Tasks: - Create remote repository - Add remote origin - Push code to GitHub 
+======================================================================================
+Case Study 6: Undoing Mistakes 
+Scenario: A file is modified incorrectly. 
+Tasks: - View file changes - Discard uncommitted changes 
+======================================================================================
+Case Study 7: Handling Merge Conflicts 
+Scenario: Two developers edited the same file. 
+Tasks: - Merge branches - Resolve conflicts - Commit resolved changes 
+======================================================================================
+Case Study 8: Ignoring Unwanted Files 
+Scenario: Log and temporary files should not be tracked. 
+Tasks: - Create .gitignore file - Add ignore patterns 
+======================================================================================
+Case Study 9: Collaborating with Team 
+Scenario: A teammate pushed new changes. 
+Tasks: - Fetch latest changes - Pull updates - Resolve conflicts if any 
+======================================================================================
+Case Study 10: Final Project Release 
+Scenario: 
+Project is ready for final submission. 
+Tasks: - Review commit history - Push final code - Prepare release version 
+
+Answer:
+Case Study 1: New Project Version Control Setup
+1st create a folder
+mkdir library-management-system
+cd library-management-system
+code .
+git init
+git status
+edit in vs code
+git add library.py
+git commit -m "Initial commit: Library Management System setup"
+=============================================================================
+Case Study 2: Tracking Daily Code Changes
+git status
+git diff
+
+git add library.py
+git commit -m "Updated student registration module"
+
+git log
+=============================================================================
+Case Study 3: Feature Development Using Branches
+git branch login-feature
+git checkout login-feature
+
+git add library.py
+git commit -m "Added login feature"
+
+git checkout main
+git checkout login-feature
+=============================================================================
+Case Study 4: Merging Feature into Main Code
+git checkout main
+git merge login-feature
+
+git status
+=============================================================================
+Case Study 5: Working with Remote Repository
+git remote add origin https://github.com/username/library-management-system.git
+git branch -M main
+git push -u origin main
+=============================================================================
+Case Study 6: Undoing Mistakes
+git diff
+git restore library.py
+=============================================================================
+Case Study 7: Handling Merge Conflicts
+git checkout main
+git merge login-feature
+
+# resolve conflicts manually in file
+
+git add library.py
+git commit -m "Resolved merge conflict"
+=============================================================================
+Case Study 8: Ignoring Unwanted Files
+touch .gitignore
+
+git add .gitignore
+git commit -m "Added gitignore file"
+
+Example .gitignore content (in file):
+
+*.log
+*.tmp
+=============================================================================
+Case Study 9: Collaborating with Team
+git fetch origin
+git pull origin main
+=============================================================================
+Case Study 10: Final Project Release
+git log
+
+git add .
+git commit -m "Final project version"
+
+git push origin main
+
+git tag v1.0
+git push origin v1.0
+
 
